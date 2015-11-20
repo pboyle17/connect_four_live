@@ -1,0 +1,41 @@
+body {
+  text-align:center;
+  margin: 0 auto;
+
+}
+
+#board {
+  width:828px;
+  margin-right:auto;
+  margin-left:auto;
+  background-color:rgb(192, 201, 84);
+  border:solid black 1px;
+
+}
+
+#wrapper {
+  width:100%;
+  background-color:slategray;
+
+
+}
+
+#title {
+  background-color:slategray;
+  text-align:center;
+  font-size:3em;
+  height:10%;
+}
+
+.space {
+  height:100px;
+  width:100px;
+  border-radius:50%;
+  background-color:gray;
+  margin:7px;
+  display:inline-block;
+}
+
+.gold {
+  background-color:rgb(191, 112, 47);
+}
