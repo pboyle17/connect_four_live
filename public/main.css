@@ -37,5 +37,19 @@ body {
 }
 
 .gold {
-  background-color:rgb(191, 112, 47);
+  background-color:rgb(205, 201, 197);
+}
+
+.winner {
+  background-color:rgb(205, 201, 197);
+}
+
+button {
+  height:50px;
+  width:100px;
+  font-size:1em;
+}
+
+#red-wins,#black-wins,#reset-button {
+  display:inline-block;
 }

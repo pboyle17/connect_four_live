@@ -2,10 +2,14 @@
 
 $(document).ready(function(){
   console.log('hello world!')
+
+
   //main gameplay ln 363.
   gameBoard.playConnectFour();
 });//end of document.ready()
 var gameBoard = {
+  redWins:0,
+  blackWins:0,
   //each empty array represents a column in the connect for board.
   columns:[ [],[],[],[],[],[],[] ] ,
   //each direction is an array length of 2 that when added to any piece coordinates will transform those coordinates to another space representing a change in that given direction.
@@ -43,6 +47,10 @@ var gameBoard = {
     // console.log('last move set');
   },
 
+  flashWinner:function(){
+
+  },
+
 //  difference arr (directions ln 9) to transform lastMove coordinates to testSpace coordinates. add the columns of both arrays and the rows of both arrays
   setTestSpace:function(diff){
     gameBoard.testSpace=[gameBoard.lastMove[0]+diff[0],gameBoard.lastMove[1]+diff[1]]
@@ -56,16 +64,22 @@ var gameBoard = {
       if(gameBoard.turn){
       console.log('you won black!');
       $('#title').html('You won Black!!!!!');
+      gameBoard.blackWins++;
         setTimeout(function(){
-          location.reload();
-        },3500)
+          gameBoard.moves=0;
+          $('.space').css('background-color','gray');
+          gameBoard.playConnectFour();
+        },6000)
     } else {
       console.log('you won red!');
+      gameBoard.redWins++;
       // alert('you won red!');
       $('#title').html('You won Red!!!');
       setTimeout(function(){
-        location.reload();
-      },3500)
+        gameBoard.moves=0;
+        $('.space').css('background-color','gray');
+        gameBoard.playConnectFour();
+      },6000)
     }
   },
 
@@ -111,6 +125,17 @@ var gameBoard = {
   checkForWinner:function(direction){
     // console.log('checking to see if there is a winner');
     // console.log('=====================================')
+      if(gameBoard.moves==41){
+        $('#title').html('Tie Game!!');
+        console.log('Tie Game')
+        $('.space').off();
+        setTimeout(function(){
+          gameBoard.moves=0
+          $('.space').css('background-color','gray');
+          gameBoard.playConnectFour();
+        },6000);
+      }
+
       gameBoard.resetSpacesInARow(); // ln 30
       gameBoard.spacesInARow.first=gameBoard.lastMove;
       // console.log(gameBoard.spacesInARow.first);
@@ -129,7 +154,7 @@ var gameBoard = {
               var row = gameBoard.spacesInARow[spaces][1];
               var col = gameBoard.spacesInARow[spaces][0];
               var selector = $('#row'+row+'> div.space.col-'+col);
-              $(selector).css('background-color','rgb(191, 112, 47)');
+              $(selector).css('background-color','rgb(205, 201, 197)');
             }
             gameBoard.winMessage();
           }
@@ -157,7 +182,7 @@ var gameBoard = {
               var row = gameBoard.spacesInARow[spaces][1];
               var col = gameBoard.spacesInARow[spaces][0];
               var selector = $('#row'+row+'> div.space.col-'+col)
-              $(selector).css('background-color','rgb(191, 112, 47)');
+              $(selector).css('background-color','rgb(205, 201, 197)');
 
             }
             gameBoard.winMessage();
@@ -187,7 +212,7 @@ var gameBoard = {
               var row = gameBoard.spacesInARow[spaces][1];
               var col = gameBoard.spacesInARow[spaces][0];
               var selector = $('#row'+row+'> div.space.col-'+col)
-              $(selector).css('background-color','rgb(191, 112, 47)');
+              $(selector).css('background-color','rgb(205, 201, 197)');
             }
             gameBoard.winMessage();
 
@@ -216,7 +241,7 @@ var gameBoard = {
               var row = gameBoard.spacesInARow[spaces][1];
               var col = gameBoard.spacesInARow[spaces][0];
               var selector = $('#row'+row+'> div.space.col-'+col)
-              $(selector).css('background-color','rgb(191, 112, 47)');
+              $(selector).css('background-color','rgb(205, 201, 197)');
             }
             gameBoard.winMessage();
 
@@ -244,7 +269,7 @@ var gameBoard = {
               var row = gameBoard.spacesInARow[spaces][1];
               var col = gameBoard.spacesInARow[spaces][0];
               var selector = $('#row'+row+'> div.space.col-'+col)
-              $(selector).css('background-color','rgb(191, 112, 47)');
+              $(selector).css('background-color','rgb(205, 201, 197)');
             }
             gameBoard.winMessage();
 
@@ -273,7 +298,7 @@ var gameBoard = {
               var row = gameBoard.spacesInARow[spaces][1];
               var col = gameBoard.spacesInARow[spaces][0];
               var selector = $('#row'+row+'> div.space.col-'+col)
-              $(selector).css('background-color','rgb(191, 112, 47)');
+              $(selector).css('background-color','rgb(205, 201, 197)');
             }
             gameBoard.winMessage();
 
@@ -302,7 +327,7 @@ var gameBoard = {
               var row = gameBoard.spacesInARow[spaces][1];
               var col = gameBoard.spacesInARow[spaces][0];
               var selector = $('#row'+row+'> div.space.col-'+col)
-              $(selector).css('background-color','rgb(191, 112, 47)');
+              $(selector).css('background-color','rgb(205, 201, 197)');
             }
             gameBoard.winMessage();
 
@@ -330,7 +355,7 @@ var gameBoard = {
               var row = gameBoard.spacesInARow[spaces][1];
               var col = gameBoard.spacesInARow[spaces][0];
               var selector = $('#row'+row+'> div.space.col-'+col)
-              $(selector).css('background-color','rgb(191, 112, 47)');
+              $(selector).css('background-color','rgb(205, 201, 197)');
             }
             gameBoard.winMessage();
 
@@ -362,12 +387,21 @@ var gameBoard = {
   },
 
   playConnectFour:function(){
+    gameBoard.columns=[ [],[],[],[],[],[],[] ];
     gameBoard.winner=false;
     gameBoard.turn=true;
     var turn = gameBoard.turn;
 
     gameBoard.moves=0;
     gameBoard.inARowCount=1;
+    $('#black-wins').html('Black wins:   '+gameBoard.blackWins);
+
+    $('#reset-button').html('<button id="reset">Reset Game</button>');
+
+    $('#reset').click(function(){
+      location.reload();
+    });
+    $('#red-wins').html('   Red wins: '+gameBoard.redWins);
 
 
 //Set event listener to every column if its blacks turn add a black piece , else add a red piece
