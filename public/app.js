@@ -399,7 +399,11 @@ var gameBoard = {
     $('#reset-button').html('<button id="reset">Reset Game</button>');
 
     $('#reset').click(function(){
-      location.reload();
+      gameBoard.moves=0;
+      $('.space').off();
+      $('.space').css('background-color','gray');
+      gameBoard.columns=[ [],[],[],[],[],[],[] ];
+      gameBoard.playConnectFour();
     });
     $('#red-wins').html('   Red wins: '+gameBoard.redWins);
 
